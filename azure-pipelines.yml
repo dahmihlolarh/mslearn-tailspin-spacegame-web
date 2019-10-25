@@ -9,7 +9,6 @@ steps:
   inputs:
     version: 2.1.505
 
-
 - task: Npm@1
   displayName: 'Run npm install'
   inputs:
@@ -31,7 +30,14 @@ steps:
     command: 'restore'
     projects: '**/*.csproj'
 
-    - task: DotNetCoreCLI@2
+- task: DotNetCoreCLI@2
+  displayName: 'Build the project - Release'
+  inputs:
+    command: 'build'
+    arguments: '--no-restore --configuration Release'
+    projects: '**/*.csproj'
+
+- task: DotNetCoreCLI@2
   displayName: 'Publish the project - Release'
   inputs:
     command: 'publish'
@@ -43,4 +49,3 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   condition: succeeded()
-
